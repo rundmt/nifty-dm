@@ -1,8 +1,11 @@
+import { itemMetaList } from '../mockData/assetMock';
+
+// NOTE: this is for the rinkeby testnet. NOT the mainnet
 const ENDPOINT = 'https://api-staging.rarible.com/protocol/ethereum/nft/indexer/v0.1/items/search';
 
 // Params
 // userAddress: string; type: "creator" | "owner";
-const getTokensByAddress = async (userAddress = '', type) => {
+export const getTokensByAddress = async (userAddress = '', type) => {
   const body = JSON.stringify({
     '@type': `by_${type}`,
     [type]: userAddress
@@ -22,4 +25,6 @@ const getTokensByAddress = async (userAddress = '', type) => {
   }
 }
 
-export { getTokensByAddress };
+export const getTokenMetaData = async (tokenId = '') => {
+  return itemMetaList.filter((item) => item.id === tokenId);
+}

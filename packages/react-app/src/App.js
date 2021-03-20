@@ -14,9 +14,9 @@ import Chat from "./components/Chat";
 import firebase from "firebase";
 import Web3 from "web3";
 
-import { getTokensByAddress } from "./raribleApi/raribleApi"
+import { getTokensByAddress, getTokenMetaData } from "./raribleApi/raribleApi"
 
-const WALLET = '0xfb571f9da71d1ac33e069571bf5c67fadcff18e4';
+const WALLET = '0xa93996eca13e1afa3a5dfb2403596a232ca30369';
 const COLLECTIONS = {
   OWNED: "owner",
   CREATED: "creator"
@@ -51,6 +51,21 @@ async function readOnChainData() {
     "0x3f8CB69d9c0ED01923F11c829BaE4D9a4CB6c82C"
   );
   console.log({ tokenBalance: tokenBalance.toString() });
+}
+
+// WIP
+async function getRaribleTokenImageURLs(walletAddress) {
+  try {
+    const items = await getTokensByAddress(WALLET, COLLECTIONS.OWNED);
+
+    const itemsImageUrl = await items.map((item) => {
+      return getTokenMetaData(item.id);
+    });
+
+    return itemsImageUrl;
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
