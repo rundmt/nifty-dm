@@ -115,7 +115,7 @@ function App() {
               reload.
             </p>
             {/* Remove the "hidden" prop and open the JavaScript console in the browser to see what this function does */}
-            <Button onClick={() => readOnChainData()}>
+            <Button hidden onClick={() => readOnChainData()}>
               Read On-Chain Balance
             </Button>
             <Link
