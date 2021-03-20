@@ -1,19 +1,26 @@
 import React from "react";
 import { Contract } from "@ethersproject/contracts";
 import { getDefaultProvider } from "@ethersproject/providers";
-import { useQuery } from "@apollo/react-hooks";
+// import { useQuery } from "@apollo/react-hooks";
 
 import { Body, Button, Header, Image, Link } from "./components";
 import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
 import { addresses, abis } from "@project/contracts";
-import GET_TRANSFERS from "./graphql/subgraph";
+// import GET_TRANSFERS from "./graphql/subgraph";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Chat from "./components/Chat";
 import firebase from "firebase";
 import Web3 from "web3";
 
+import { getTokensByAddress } from "./raribleApi/raribleApi"
+
+const WALLET = '0xfb571f9da71d1ac33e069571bf5c67fadcff18e4';
+const COLLECTIONS = {
+  OWNED: "owner",
+  CREATED: "creator"
+}
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -79,9 +86,13 @@ function initWeb3(provider) {
 }
 
 function App() {
-  const { loading, error, data } = useQuery(GET_TRANSFERS);
+  // const { loading, error, data } = useQuery(GET_TRANSFERS);
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
   const [currentWallet, setCurrentWallet] = React.useState("")
+
+  React.useEffect(() => {
+    getTokensByAddress(WALLET, COLLECTIONS.OWNED).then((items) => console.log({items}));
+  }, [])
 
   React.useEffect(() => {
     if (!provider) {
@@ -91,7 +102,6 @@ function App() {
     console.log(provider);
 
     setCurrentWallet(provider.provider.selectedAddress);
-
 
   }, [provider]);
 
