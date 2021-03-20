@@ -9,7 +9,7 @@ import useWeb3Modal from "./hooks/useWeb3Modal";
 
 import { addresses, abis } from "@project/contracts";
 // import GET_TRANSFERS from "./graphql/subgraph";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import Chat from "./components/Chat";
 import firebase from "firebase";
 import Web3 from "web3";
