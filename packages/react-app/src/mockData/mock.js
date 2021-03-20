@@ -3,6 +3,8 @@
 // actual rarible user: https://rarible.com/sloppypencil : 0xa93996eca13e1afa3a5dfb2403596a232ca30369
 // example wallet that works: 0xfb571f9da71d1ac33e069571bf5c67fadcff18e4
 
+// Rarible api docs https://api-staging.rarible.com/protocol/ethereum/nft/indexer/v0.1/swagger/webjars/swagger-ui/index.html?configUrl=/protocol/ethereum/nft/indexer/v0.1/swagger/v3/api-docs/swagger-config#/item-controller/getItemMetaById
+
 // tokens
 export const createdTokensResponse = {
   "total": 16,
