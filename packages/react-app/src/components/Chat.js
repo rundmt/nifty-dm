@@ -47,14 +47,20 @@ const Chat = ({ firestore, currentWallet }) => {
         console.log("Document successfully written!");
     });
 
-  },[currentWallet, wallet, input])
+  },[currentWallet, wallet, input, firestore]);
+
+  const onKeyDown = React.useCallback((ev) => {
+    if (ev.keyCode === 13) {
+      onSubmit();
+    }
+  }, [onSubmit]);
 
   return (
     <div>
         {messages.map((message) => (
-            <div>{message.content}</div> 
+            <div>{message.content}</div>
         ))}
-      <input type="text" onChange={onChangeInput} value={input} />
+      <input type="text" onChange={onChangeInput} onKeyDown={onKeyDown} value={input} />
       <button onClick={onSubmit}>Submit</button>
     </div>
   );
