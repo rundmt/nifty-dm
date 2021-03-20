@@ -54,13 +54,14 @@ async function readOnChainData() {
 }
 
 // WIP
-async function getRaribleTokenImageURLs(walletAddress) {
+async function getRaribleTokenImageURLs(walletAddress, type) {
   try {
-    const items = await getTokensByAddress(WALLET, COLLECTIONS.OWNED);
+    const items = await getTokensByAddress(walletAddress, type);
 
-    const itemsImageUrl = await items.map((item) => {
-      return getTokenMetaData(item.id);
-    });
+    const itemsImageUrl = Promise.all(items.map(async (item) => {
+      const itemUrl = await getTokenMetaData(item.id, 'external_url');
+      return itemUrl[0];
+    }));
 
     return itemsImageUrl;
   } catch (err) {
@@ -106,7 +107,7 @@ function App() {
   const [currentWallet, setCurrentWallet] = React.useState("")
 
   React.useEffect(() => {
-    getTokensByAddress(WALLET, COLLECTIONS.OWNED).then((items) => console.log({items}));
+    getRaribleTokenImageURLs(WALLET, COLLECTIONS.OWNED).then((itemImageUrl) => console.log({itemImageUrl}));
   }, [])
 
   React.useEffect(() => {
