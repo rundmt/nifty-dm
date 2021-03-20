@@ -14,7 +14,7 @@ import Chat from "./components/Chat";
 import firebase from "firebase";
 import Web3 from "web3";
 
-import { getTokensByAddress, getTokenMetaData } from "./raribleApi/raribleApi"
+import { getTokensMetaDataByAddress } from "./raribleApi/raribleApi"
 
 const WALLET = '0xa93996eca13e1afa3a5dfb2403596a232ca30369';
 const COLLECTIONS = {
@@ -53,22 +53,6 @@ async function readOnChainData() {
   console.log({ tokenBalance: tokenBalance.toString() });
 }
 
-// WIP
-async function getRaribleTokenImageURLs(walletAddress, type) {
-  try {
-    const items = await getTokensByAddress(walletAddress, type);
-
-    const itemsImageUrl = Promise.all(items.map(async (item) => {
-      const itemUrl = await getTokenMetaData(item.id, 'external_url');
-      return itemUrl[0];
-    }));
-
-    return itemsImageUrl;
-  } catch (err) {
-    console.error(err);
-  }
-}
-
 function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
   return (
     <Button
@@ -104,10 +88,18 @@ function initWeb3(provider) {
 function App() {
   // const { loading, error, data } = useQuery(GET_TRANSFERS);
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
-  const [currentWallet, setCurrentWallet] = React.useState("")
+  const [currentWallet, setCurrentWallet] = React.useState("");
+  const [tokensOwned, setTokensOwned] = React.useState([]);
+  const [tokensCreated, setTokensCreated] = React.useState([]);
 
   React.useEffect(() => {
-    getRaribleTokenImageURLs(WALLET, COLLECTIONS.OWNED).then((itemImageUrl) => console.log({itemImageUrl}));
+    // get image url for tokens owned
+    getTokensMetaDataByAddress(WALLET, COLLECTIONS.OWNED)
+      .then((itemImageUrls) => setTokensOwned(itemImageUrls));
+
+    // get image url for tokens created
+    getTokensMetaDataByAddress(WALLET, COLLECTIONS.CREATED)
+      .then((itemImageUrls) => setTokensCreated(itemImageUrls));
   }, [])
 
   React.useEffect(() => {
@@ -122,6 +114,7 @@ function App() {
   }, [provider]);
 
   console.log(currentWallet);
+  console.log({tokensOwned, tokensCreated});
 
   return (
     <Router>

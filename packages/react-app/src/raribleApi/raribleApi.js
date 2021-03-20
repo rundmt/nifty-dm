@@ -30,7 +30,7 @@ export const getTokensByAddress = async (userAddress = '', type) => {
       console.error('getTokensByAddress() error: ', err);
     }
   }
-}
+};
 
 export const getTokenMetaData = async (tokenId = '', key = '') => {
   if (DEVELOPMENT) {
@@ -40,4 +40,19 @@ export const getTokenMetaData = async (tokenId = '', key = '') => {
       return itemMetaList.filter((item) => item.id === tokenId).map((item) => item);
     }
   }
-}
+};
+
+export const getTokensMetaDataByAddress = async (walletAddress, type) => {
+  try {
+    const items = await getTokensByAddress(walletAddress, type);
+
+    const itemsImageUrl = Promise.all(items.map(async (item) => {
+      const itemUrl = await getTokenMetaData(item.id);
+      return itemUrl[0];
+    }));
+
+    return itemsImageUrl;
+  } catch (err) {
+    console.error('getTokensMetaDataByAddress() error: ', err);
+  }
+};
