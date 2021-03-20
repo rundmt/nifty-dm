@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { Contract } from "@ethersproject/contracts";
 import { getDefaultProvider } from "@ethersproject/providers";
 import { useQuery } from "@apollo/react-hooks";
@@ -8,7 +8,7 @@ import logo from "./ethereumLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
 import { addresses, abis } from "@project/contracts";
-import GET_TRANSFERS from "./graphql/subgraph";
+// import { ZORA_MEDIA_GRAPH } from "./graphql/subgraph";
 
 async function readOnChainData() {
   // Should replace with the end-user wallet, e.g. Metamask
@@ -37,15 +37,18 @@ function WalletButton({ provider, loadWeb3Modal, logoutOfWeb3Modal }) {
   );
 }
 
-function App() {
-  const { loading, error, data } = useQuery(GET_TRANSFERS);
+function App({subgraph}) {
+  const [userId, setUserId] = useState('');
+  const { data: userData } = useQuery(subgraph, {variables: {
+    id: userId
+  }});
   const [provider, loadWeb3Modal, logoutOfWeb3Modal] = useWeb3Modal();
 
   React.useEffect(() => {
-    if (!loading && !error && data && data.transfers) {
-      console.log({ transfers: data.transfers });
+    if (userData) {
+      console.log({ userData, userId });
     }
-  }, [loading, error, data]);
+  }, [userData, userId]);
 
   return (
     <div>
@@ -54,6 +57,7 @@ function App() {
       </Header>
       <Body>
         <Image src={logo} alt="react-logo" />
+        <input onKeyDown={(ev) => ev.keyCode === 13 ? setUserId(ev.currentTarget.value) : null} />
         <p>
           Edit <code>packages/react-app/src/App.js</code> and save to reload.
         </p>
