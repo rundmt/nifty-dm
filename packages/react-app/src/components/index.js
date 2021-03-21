@@ -39,6 +39,7 @@ export const Link = styled.a.attrs({
 })`
   color: #61dafb;
   margin-top: 10px;
+  text-decoration: none;
 `;
 
 export const Button = styled.button`

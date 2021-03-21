@@ -19,7 +19,34 @@ const Container = styled.div`
   align-items: center;
 `;
 
+const TabContainer = styled.div`
+  padding-left: 20px;
+  display: flex;
+  align-items: flex-start;
+  align-self: flex-start;
+  width: 100%;
+  background-color: lightgray;
+`;
+
+const Tab = styled.div`
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: white;
+  padding: 20px;
+  border: 1px darkgray solid;
+  border-bottom: 0px;
+`;
+
+const SearchContainer = styled.div`
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
+  align-self: flex-end;
+  width: 100%;
+`;
+
 const ChatContainer = styled.div`
+  border-top: 1px darkgray solid;
   display: flex;
   align-items: center;
 `;
@@ -71,38 +98,45 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
 
   return (
     <Container>
-      <Link
-        to={{
-          pathname: "/",
-          search: "?type=created",
-        }}
-      >
-        Created
-      </Link>
-      <Link
-        to={{
-          pathname: "/",
-          search: "?type=owned",
-        }}
-      >
-        Owned
-      </Link>
-      <input
-        type="text"
-        value={value}
-        onChange={onChange}
-        placeholder="search"
-      />
+      <TabContainer>
+        <Tab>
+          <Link
+            to={{
+              pathname: "/",
+              search: "?type=created",
+            }}
+          >
+            Created
+          </Link>
+        </Tab>
+        <Tab>
+          <Link
+            to={{
+              pathname: "/",
+              search: "?type=owned",
+            }}
+          >
+            Owned
+          </Link>
+        </Tab>
+        <SearchContainer>
+          <input
+            type="text"
+            value={value}
+            onChange={onChange}
+            placeholder="search"
+          />
+        </SearchContainer>
+      </TabContainer>
       <SectionHeader>Tokens</SectionHeader>
       <Section>
         <ChatContainer>
           {tokens.map((token) => {
-            console.log('token', token['external_url']);
+            console.log('token', token);
             return (
               <Token>
-                <TokenIcon src={token['external_url']} alt="test" height="200px" width="200px" />
-                {/* TODO get the wallet owner of the token to chat */}
-                <Link to="">
+                <Link to={`/chat/${token.owner}`}>
+                  <TokenIcon src={token['external_url']} alt="test" height="200px" width="200px" />
                   <div>{token.name}</div>
                 </Link>
               </Token>
