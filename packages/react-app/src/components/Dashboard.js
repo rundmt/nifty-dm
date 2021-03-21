@@ -62,6 +62,10 @@ const TokenIcon = styled.img`
   border-radius: 99px;
 `;
 
+const TokenLabel = styled.div`
+  margin: 20px;
+`;
+
 const WalletIcon = styled.div`
   width: 48px;
   height: 48px;
@@ -137,7 +141,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
               <Link to={`/chat/${token.owner}`}>
                 <Token>
                   <TokenIcon src={token['external_url']} alt="test" height="200px" width="200px" />
-                  <div>{token.name}</div>
+                  <TokenLabel>{token.name}</TokenLabel>
                 </Token>
               </Link>
             );
