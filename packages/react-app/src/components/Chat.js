@@ -76,6 +76,7 @@ const ChatName = styled.div`
 `;
 
 const SubmitButton = styled.div`
+  cursor: pointer;
   background: #21e0ea;
   border-radius: 50%;
   height: 36px;
@@ -93,7 +94,8 @@ const Chat = ({
   tokensCreated,
 }) => {
   let { wallet } = useParams();
-  const [messages, setMessages] = React.useState([]);
+  const [messagesSent, setMessagesSent] = React.useState([]);
+  const [messagesReceived, setMessagesReceived] = React.useState([]);
   const [input, setInput] = React.useState("");
 
   const messagesRef = React.useMemo(() => {
@@ -101,28 +103,57 @@ const Chat = ({
       currentWallet &&
       firestore
         .collection("messages")
-        .where("sender", "in", [
-          currentWallet.toLowerCase(),
-          wallet.toLowerCase(),
-        ])
+        .where("sender", "==", currentWallet.toLowerCase())
+        .where("receiver", "==", wallet.toLowerCase())
+        .orderBy("createdAt")
+    );
+  }, [currentWallet, firestore, wallet]);
+
+  const reverseMessagesRef = React.useMemo(() => {
+    return (
+      currentWallet &&
+      firestore
+        .collection("messages")
+        .where("sender", "==", wallet.toLowerCase())
+        .where("receiver", "==", currentWallet.toLowerCase())
         .orderBy("createdAt")
     );
   }, [currentWallet, firestore, wallet]);
 
   React.useEffect(() => {
-    if (messagesRef) {
+    if (messagesRef && reverseMessagesRef) {
       const unsubscribe = messagesRef.onSnapshot((querySnapshot) => {
         const list = [];
         querySnapshot.forEach((doc) => {
           list.push(doc.data());
         });
 
-        setMessages(list);
+        setMessagesSent(list);
       });
 
-      return unsubscribe;
+      const unsubscribeReverse = reverseMessagesRef.onSnapshot(
+        (querySnapshot) => {
+          const list = [];
+          querySnapshot.forEach((doc) => {
+            list.push(doc.data());
+          });
+
+          setMessagesReceived(list);
+        }
+      );
+
+      return () => {
+        unsubscribe();
+        unsubscribeReverse();
+      };
     }
-  }, [messagesRef]);
+  }, [messagesRef, reverseMessagesRef]);
+
+  const messages = React.useMemo(() => {
+    return [...messagesReceived, ...messagesSent].sort(
+      (a, b) => a.createdAt.seconds - b.createdAt.seconds
+    );
+  }, [messagesReceived, messagesSent]);
 
   const onChangeInput = React.useCallback((ev) => {
     setInput(ev.currentTarget.value);
@@ -154,6 +185,8 @@ const Chat = ({
     },
     [onSubmit]
   );
+
+  console.log(messages);
 
   return (
     <Container>
