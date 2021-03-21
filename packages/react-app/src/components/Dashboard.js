@@ -24,8 +24,15 @@ const ChatContainer = styled.div`
   align-items: center;
 `;
 
-const TokenIcon = styled.div`
-  margin-right: 24px;
+const Token = styled.div`
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const TokenIcon = styled.img`
+  border-radius: 99px;
 `;
 
 const WalletIcon = styled.div`
@@ -90,18 +97,15 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       <Section>
         <ChatContainer>
           {tokens.map((token) => {
+            console.log('token', token['external_url']);
             return (
-              <TokenIcon>
+              <Token>
+                <TokenIcon src={token['external_url']} alt="test" height="200px" width="200px" />
                 {/* TODO get the wallet owner of the token to chat */}
                 <Link to="">
-                  <FontAwesomeIcon
-                    color="gold"
-                    size="2x"
-                    icon={["fas", "coins"]}
-                  />
                   <div>{token.name}</div>
                 </Link>
-              </TokenIcon>
+              </Token>
             );
           })}
         </ChatContainer>
@@ -109,7 +113,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       <SectionHeader>Wallets</SectionHeader>
       <Section>
         <ChatContainer>
-          <TokenIcon>
+          <Token>
             <Link to={`/chat/`}>
               <FontAwesomeIcon
                 color="brown"
@@ -117,13 +121,13 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
                 icon={["fas", "wallet"]}
               />
             </Link>
-          </TokenIcon>
+          </Token>
         </ChatContainer>
       </Section>
       <SectionHeader>Group</SectionHeader>
       <Section>
         <ChatContainer>
-          <TokenIcon>
+          <Token>
             <Link to={`/chat/`}>
               <FontAwesomeIcon
                 color="purple"
@@ -131,7 +135,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
                 icon={["fas", "comments"]}
               />
             </Link>
-          </TokenIcon>
+          </Token>
         </ChatContainer>
       </Section>
     </Container>
