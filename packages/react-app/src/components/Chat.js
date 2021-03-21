@@ -199,12 +199,12 @@ const Chat = ({
     [onSubmit]
   );
 
-  const selectedToken = tokensOwned.find((t) => t.id === token);
+  const selectedToken = [...tokensOwned, ...tokensCreated].find(
+    (t) => t.id === token
+  );
 
-  console.log(tokensOwned, selectedToken, token);
   const tokenURL = selectedToken ? selectedToken["external_url"] : "as";
 
-  console.log({ tokenURL });
   return (
     <Container>
       <DashboardContainer>

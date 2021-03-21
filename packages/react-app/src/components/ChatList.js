@@ -58,6 +58,19 @@ const TokenName = styled.div`
   margin-left: 8px;
 `;
 
+const LinkWrapper = styled.div`
+  display: flex;
+`;
+
+const Input = styled.input`
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  padding: 12px;
+  margin-right: 16px;
+  border: none;
+`;
+
 const ChatList = ({ tokensOwned, tokensCreated }) => {
   const history = useHistory();
   const [value, setValue] = React.useState("");
@@ -71,29 +84,33 @@ const ChatList = ({ tokensOwned, tokensCreated }) => {
     return tokensCreated.filter(includesFilter);
   }, [history.location.search, tokensCreated, tokensOwned, value]);
 
+  console.log(history);
+
   const onChange = React.useCallback((ev) => {
     setValue(ev.currentTarget.value);
   }, []);
 
   return (
     <Container>
-      <Link
-        to={{
-          pathname: history.location.pathname,
-          search: "?type=created",
-        }}
-      >
-        Created
-      </Link>
-      <Link
-        to={{
-          pathname: history.location.pathname,
-          search: "?type=owned",
-        }}
-      >
-        Owned
-      </Link>
-      <input
+      <LinkWrapper>
+        <Link
+          to={{
+            pathname: history.location.pathname,
+            search: "?type=created",
+          }}
+        >
+          Created
+        </Link>
+        <Link
+          to={{
+            pathname: history.location.pathname,
+            search: "?type=owned",
+          }}
+        >
+          Owned
+        </Link>
+      </LinkWrapper>
+      <Input
         type="text"
         value={value}
         onChange={onChange}
