@@ -15,6 +15,11 @@ library.add(faCoins, faWallet, faComments, faPaperPlane);
 
 const backgroundDark = '#070037'
 
+const StyleLink = styled(Link)`
+  text-decoration: none;
+  color: dimgray;
+`;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -68,13 +73,6 @@ const TokenLabel = styled.div`
   margin: 20px;
 `;
 
-const WalletIcon = styled.div`
-  width: 48px;
-  height: 48px;
-  background-color: green;
-  margin-right: 24px;
-`;
-
 const Section = styled.div`
   display: flex;
   flex-direction: column;
@@ -97,16 +95,6 @@ const Input = styled.input`
   padding: 12px;
   margin-right: 16px;
   border: none;
-`;
-const SubmitButton = styled.div`
-  cursor: pointer;
-  background: #21e0ea;
-  border-radius: 50%;
-  height: 36px;
-  width: 36px;
-  justify-content: center;
-  align-items: center;
-  display: flex;
 `;
 
 const Dashboard = ({ tokensOwned, tokensCreated }) => {
@@ -184,12 +172,12 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
           {tokens.map((token) => {
             console.log('token', token);
             return (
-              <Link to={`/chat/${token.owner}`}>
+              <StyleLink to={`/chat/${token.owner}`}>
                 <Token>
                   <TokenIcon src={token['external_url']} alt="test" height="200px" width="200px" />
                   <TokenLabel>{token.name}</TokenLabel>
                 </Token>
-              </Link>
+              </StyleLink>
             );
           })}
         </ChatContainer>
@@ -198,13 +186,13 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       <Section>
         <ChatContainer>
           <Token>
-            <Link to={`/chat/`}>
+            <StyleLink to={`/chat/`}>
               <FontAwesomeIcon
                 color="brown"
                 size="2x"
                 icon={["fas", "wallet"]}
               />
-            </Link>
+            </StyleLink>
           </Token>
         </ChatContainer>
       </Section>
@@ -212,13 +200,13 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       <Section>
         <ChatContainer>
           <Token>
-            <Link to={`/chat/`}>
+            <StyleLink to={`/chat/`}>
               <FontAwesomeIcon
                 color="purple"
                 size="2x"
                 icon={["fas", "comments"]}
               />
-            </Link>
+            </StyleLink>
           </Token>
         </ChatContainer>
       </Section>
