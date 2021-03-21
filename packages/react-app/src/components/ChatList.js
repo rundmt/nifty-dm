@@ -105,8 +105,7 @@ const ChatList = ({ tokensOwned, tokensCreated }) => {
           {tokens.map((token) => {
             return (
               <TokenIcon>
-                {/* TODO get the wallet owner of the token to chat */}
-                <Link to={`/chat/${token.owner}`}>
+                <Link to={`/chat/${token.owner}/${token.id}`}>
                   <IconWrapper>
                     <FontAwesomeIcon
                       color="gold"

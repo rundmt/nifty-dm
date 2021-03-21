@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 library.add(faCoins, faWallet, faComments, faPaperPlane);
 
-const backgroundDark = '#070037'
+const backgroundDark = "#070037";
 
 const StyleLink = styled(Link)`
   text-decoration: none;
@@ -125,11 +125,11 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
             }}
             style={{
               color: "darkgray",
-              textDecoration: "none"
+              textDecoration: "none",
             }}
             activeStyle={{
               fontWeight: "bold",
-              color: backgroundDark
+              color: backgroundDark,
             }}
             isActive={() => history.location.search === "?type=created"}
           >
@@ -144,11 +144,11 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
             }}
             style={{
               color: "darkgray",
-              textDecoration: "none"
+              textDecoration: "none",
             }}
             activeStyle={{
               fontWeight: "bold",
-              color: backgroundDark
+              color: backgroundDark,
             }}
             isActive={() => history.location.search === "?type=owned"}
           >
@@ -170,11 +170,15 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       <Section>
         <ChatContainer>
           {tokens.map((token) => {
-            console.log('token', token);
             return (
-              <StyleLink to={`/chat/${token.owner}`}>
+              <StyleLink to={`/chat/${token.owner}/${token.id}`}>
                 <Token>
-                  <TokenIcon src={token['external_url']} alt="test" height="200px" width="200px" />
+                  <TokenIcon
+                    src={token["external_url"]}
+                    alt="test"
+                    height="200px"
+                    width="200px"
+                  />
                   <TokenLabel>{token.name}</TokenLabel>
                 </Token>
               </StyleLink>

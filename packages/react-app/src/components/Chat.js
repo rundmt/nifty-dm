@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ChatList from "./ChatList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getTokenMetaData } from "../raribleApi/raribleApi";
 
 const Container = styled.div`
   display: grid;
@@ -19,6 +20,7 @@ const DashboardContainer = styled.div`
 const InfoContainer = styled.div`
   grid-column-start: 3;
   border-left: 1px solid black;
+  padding: 12px;
 `;
 
 const ChatContainer = styled.div`
@@ -86,6 +88,15 @@ const SubmitButton = styled.div`
   display: flex;
 `;
 
+const TokenImage = styled.img`
+  width: 100%;
+`;
+
+const InfoHeader = styled.h2`
+  font-weight: 800;
+  text-align: center;
+`;
+
 const Chat = ({
   firestore,
   currentWallet,
@@ -93,10 +104,12 @@ const Chat = ({
   tokensOwned,
   tokensCreated,
 }) => {
-  let { wallet } = useParams();
+  let { wallet, token } = useParams();
   const [messagesSent, setMessagesSent] = React.useState([]);
   const [messagesReceived, setMessagesReceived] = React.useState([]);
   const [input, setInput] = React.useState("");
+
+  console.log({ token });
 
   const messagesRef = React.useMemo(() => {
     return (
@@ -186,8 +199,12 @@ const Chat = ({
     [onSubmit]
   );
 
-  console.log(messages);
+  const selectedToken = tokensOwned.find((t) => t.id === token);
 
+  console.log(tokensOwned, selectedToken, token);
+  const tokenURL = selectedToken ? selectedToken["external_url"] : "as";
+
+  console.log({ tokenURL });
   return (
     <Container>
       <DashboardContainer>
@@ -195,10 +212,12 @@ const Chat = ({
       </DashboardContainer>
       <ChatContainer>
         <ChatName>{wallet}</ChatName>
-
         <MessagesContainer>
           {messages.map((message) => (
-            <ChatRow isOwnMessage={message.sender === currentWallet}>
+            <ChatRow
+              key={message.id}
+              isOwnMessage={message.sender === currentWallet}
+            >
               <ChatMessage isOwnMessage={message.sender === currentWallet}>
                 {message.content}
               </ChatMessage>
@@ -211,7 +230,7 @@ const Chat = ({
             onChange={onChangeInput}
             onKeyDown={onKeyDown}
             value={input}
-            placeholder="Aa"
+            placeholder="Message"
           />
           <SubmitButton onClick={onSubmit}>
             <FontAwesomeIcon
@@ -222,8 +241,10 @@ const Chat = ({
           </SubmitButton>
         </InputContainer>
       </ChatContainer>
-
-      <InfoContainer>info</InfoContainer>
+      <InfoContainer>
+        <InfoHeader>Token</InfoHeader>
+        <TokenImage src={tokenURL} />
+      </InfoContainer>
     </Container>
   );
 };

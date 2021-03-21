@@ -136,7 +136,16 @@ function App() {
         </Header>
         <Dashboard tokensOwned={tokensOwned} tokensCreated={tokensCreated} />
       </Route>
-      <Route path="/chat/:wallet">
+      <Route path="/chat/:wallet" exact>
+        <Chat
+          firestore={db}
+          firebase={firebase}
+          currentWallet={currentWallet}
+          tokensOwned={tokensOwned}
+          tokensCreated={tokensCreated}
+        />
+      </Route>
+      <Route path="/chat/:wallet/:token" exact>
         <Chat
           firestore={db}
           firebase={firebase}
