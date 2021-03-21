@@ -117,12 +117,14 @@ const ChatList = ({ tokensOwned, tokensCreated }) => {
           </StyledNavLink>
         </Tab>
       </TabContainer>
-      <Input
-        type="text"
-        value={value}
-        onChange={onChange}
-        placeholder="search"
-      />
+      <div style={{paddingLeft: '20px', paddingTop: '20px'}}>
+        <Input
+          type="text"
+          value={value}
+          onChange={onChange}
+          placeholder="wallet address"
+        />
+      </div>
       <SectionHeader>Tokens</SectionHeader>
       <Section>
         <ChatContainer>

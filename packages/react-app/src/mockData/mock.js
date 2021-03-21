@@ -18,7 +18,7 @@ export const createdTokensResponse = {
       "creator": "0xa93996eca13e1afa3a5dfb2403596a232ca30369",
       "supply": 1,
       "owners": [
-        "0xa93996eca13e1afa3a5dfb2403596a232ca30369"
+        "0xDF2c6479806d122C29871EDD742ef4EebCA9Ee0d"
       ],
       "royalties": []
     },
@@ -47,7 +47,7 @@ export const createdTokensResponse = {
       "creator": "0xa93996eca13e1afa3a5dfb2403596a232ca30369",
       "supply": 1,
       "owners": [
-        "0x6e82296982537dd2f1d6c83d58d2aca54c17390a"
+        "vitalik.eth"
       ],
       "royalties": [
         {
@@ -64,7 +64,7 @@ export const createdTokensResponse = {
       "creator": "0xa93996eca13e1afa3a5dfb2403596a232ca30369",
       "supply": 1,
       "owners": [
-        "0xa93996eca13e1afa3a5dfb2403596a232ca30369"
+        "0xDF2c6479806d122C29871EDD742ef4EebCA9Ee0d"
       ],
       "royalties": []
     },
