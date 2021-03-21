@@ -83,6 +83,30 @@ const SectionHeader = styled.h2`
   font-size: 24px;
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+`;
+
+const Input = styled.input`
+  flex: 9;
+  font-size: 16px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  padding: 12px;
+  margin-right: 16px;
+  border: none;
+`;
+const SubmitButton = styled.div`
+  cursor: pointer;
+  background: #21e0ea;
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
+
 const Dashboard = ({ tokensOwned, tokensCreated }) => {
   const history = useHistory();
   const [value, setValue] = React.useState("");
@@ -106,7 +130,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
         <Tab>
           <Link
             to={{
-              pathname: "/",
+              pathname: history.location.pathname,
               search: "?type=created",
             }}
           >
@@ -116,7 +140,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
         <Tab>
           <Link
             to={{
-              pathname: "/",
+              pathname: history.location.pathname,
               search: "?type=owned",
             }}
           >
@@ -124,12 +148,14 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
           </Link>
         </Tab>
         <SearchContainer>
-          <input
-            type="text"
-            value={value}
-            onChange={onChange}
-            placeholder="search"
-          />
+          <InputContainer>
+            <Input
+              type="text"
+              value={value}
+              onChange={onChange}
+              placeholder="search"
+            />
+          </InputContainer>
         </SearchContainer>
       </TabContainer>
       <SectionHeader>Tokens</SectionHeader>
