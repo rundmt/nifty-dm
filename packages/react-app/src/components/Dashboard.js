@@ -134,12 +134,12 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
           {tokens.map((token) => {
             console.log('token', token);
             return (
-              <Token>
-                <Link to={`/chat/${token.owner}`}>
+              <Link to={`/chat/${token.owner}`}>
+                <Token>
                   <TokenIcon src={token['external_url']} alt="test" height="200px" width="200px" />
                   <div>{token.name}</div>
-                </Link>
-              </Token>
+                </Token>
+              </Link>
             );
           })}
         </ChatContainer>
