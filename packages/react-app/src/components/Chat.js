@@ -4,10 +4,12 @@ import styled from "styled-components";
 import ChatList from "./ChatList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import logo from "../nftydmLogo.png";
 import {
   TokenLabel,
   Input,
   InputContainer,
+  Image
 } from "./index"
 
 const Container = styled.div`
@@ -232,12 +234,15 @@ const Chat = ({
               icon={["fas", "paper-plane"]}
             />
           </SubmitButton>
-        </InputContainer>
-      </ChatContainer>
-      <InfoContainer>
+      </InputContainer>
+    </ChatContainer>
+    <InfoContainer>
+        <div style={{ display: 'flex', justifyContent: 'center', padding: "20px" }}>
+          <Image src={logo} alt="nfty-dm-logo" height="100px" width="100px" />
+        </div>
         <InfoHeader>Token</InfoHeader>
         <TokenImage src={tokenURL} />
-        <TokenLabel>{tokenDescription}</TokenLabel>
+        <TokenLabel>description: {tokenDescription}</TokenLabel>
         <TokenLabel>owner: {tokenOwner}</TokenLabel>
       </InfoContainer>
     </Container>

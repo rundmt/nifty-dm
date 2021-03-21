@@ -3,7 +3,7 @@ import { Contract } from "@ethersproject/contracts";
 import { getDefaultProvider } from "@ethersproject/providers";
 // import { useQuery } from "@apollo/react-hooks";
 
-import { Button, Header, HeaderH1, Image, Link } from "./components";
+import { Button, Header, HeaderH1, Image } from "./components";
 import logo from "./nftydmLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
