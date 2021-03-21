@@ -46,14 +46,20 @@ const SectionHeader = styled.h2`
 
 const Dashboard = ({ tokensOwned, tokensCreated }) => {
   const history = useHistory();
-  console.log(history);
+  const [value, setValue] = React.useState("");
   const tokens = React.useMemo(() => {
+    const includesFilter = (token) => token.name.toLowerCase().includes(value);
+
     if (history.location.search === "?type=owned") {
-      return tokensOwned;
+      return tokensOwned.filter(includesFilter);
     }
 
-    return tokensCreated;
-  }, [history.location.search, tokensCreated, tokensOwned]);
+    return tokensCreated.filter(includesFilter);
+  }, [history.location.search, tokensCreated, tokensOwned, value]);
+
+  const onChange = React.useCallback((ev) => {
+    setValue(ev.currentTarget.value);
+  }, []);
 
   return (
     <Container>
@@ -73,6 +79,12 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       >
         Owned
       </Link>
+      <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        placeholder="search"
+      />
       <SectionHeader>Tokens</SectionHeader>
       <Section>
         <ChatContainer>
