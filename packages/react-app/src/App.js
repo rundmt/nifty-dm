@@ -11,25 +11,26 @@ import { addresses, abis } from "@project/contracts";
 // import GET_TRANSFERS from "./graphql/subgraph";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Chat from "./components/Chat";
+import Dashboard from "./components/Dashboard";
 import firebase from "firebase";
 import Web3 from "web3";
 
-import { getTokensMetaDataByAddress } from "./raribleApi/raribleApi"
+import { getTokensMetaDataByAddress } from "./raribleApi/raribleApi";
 
-const WALLET = '0xa93996eca13e1afa3a5dfb2403596a232ca30369';
+const WALLET = "0xa93996eca13e1afa3a5dfb2403596a232ca30369";
 const COLLECTIONS = {
   OWNED: "owner",
-  CREATED: "creator"
-}
+  CREATED: "creator",
+};
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain:process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId:process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket:process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId:process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId:process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId:process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 firebase.initializeApp(firebaseConfig);
@@ -77,9 +78,9 @@ function initWeb3(provider) {
       {
         name: "chainId",
         call: "eth_chainId",
-        outputFormatter: web3.utils.hexToNumber
-      }
-    ]
+        outputFormatter: web3.utils.hexToNumber,
+      },
+    ],
   });
   console.log(web3);
   return web3;
@@ -94,13 +95,17 @@ function App() {
 
   React.useEffect(() => {
     // get image url for tokens owned
-    getTokensMetaDataByAddress(WALLET, COLLECTIONS.OWNED)
-      .then((itemImageUrls) => setTokensOwned(itemImageUrls));
+    getTokensMetaDataByAddress(
+      WALLET,
+      COLLECTIONS.OWNED
+    ).then((itemImageUrls) => setTokensOwned(itemImageUrls));
 
     // get image url for tokens created
-    getTokensMetaDataByAddress(WALLET, COLLECTIONS.CREATED)
-      .then((itemImageUrls) => setTokensCreated(itemImageUrls));
-  }, [])
+    getTokensMetaDataByAddress(
+      WALLET,
+      COLLECTIONS.CREATED
+    ).then((itemImageUrls) => setTokensCreated(itemImageUrls));
+  }, []);
 
   React.useEffect(() => {
     if (!provider) {
@@ -110,45 +115,22 @@ function App() {
     console.log(provider);
 
     setCurrentWallet(provider.provider.selectedAddress);
-
   }, [provider]);
 
   console.log(currentWallet);
-  console.log({tokensOwned, tokensCreated});
+  console.log({ tokensOwned, tokensCreated });
 
   return (
     <Router>
       <Route path="/" exact>
-        <div>
-          <Header>
-            <WalletButton
-              provider={provider}
-              loadWeb3Modal={loadWeb3Modal}
-              logoutOfWeb3Modal={logoutOfWeb3Modal}
-            />
-          </Header>
-          <Body>
-            <Image src={logo} alt="react-logo" />
-            <p>
-              Edit <code>packages/react-app/src/App.js</code> and save to
-              reload.
-            </p>
-            {/* Remove the "hidden" prop and open the JavaScript console in the browser to see what this function does */}
-            <Button hidden onClick={() => readOnChainData()}>
-              Read On-Chain Balance
-            </Button>
-            <Link
-              href="https://ethereum.org/developers/#getting-started"
-              style={{ marginTop: "8px" }}
-            >
-              Learn Ethereum
-            </Link>
-            <Link href="https://reactjs.org">Learn React</Link>
-            <Link href="https://thegraph.com/docs/quick-start">
-              Learn The Graph
-            </Link>
-          </Body>
-        </div>
+        <Header>
+          <WalletButton
+            provider={provider}
+            loadWeb3Modal={loadWeb3Modal}
+            logoutOfWeb3Modal={logoutOfWeb3Modal}
+          />
+        </Header>
+        <Dashboard tokensOwned={tokensOwned} tokensCreated={tokensCreated} />
       </Route>
       <Route path="/chat/:wallet">
         <Chat firestore={db} currentWallet={currentWallet} />
