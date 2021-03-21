@@ -7,11 +7,13 @@ import {
   faComments,
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link, useHistory } from "react-router-dom";
+import { NavLink, Link, useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 library.add(faCoins, faWallet, faComments, faPaperPlane);
+
+const backgroundDark = '#070037'
 
 const Container = styled.div`
   display: flex;
@@ -22,7 +24,7 @@ const Container = styled.div`
 const TabContainer = styled.div`
   padding-left: 20px;
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   align-self: flex-start;
   width: 100%;
   background-color: lightgray;
@@ -128,24 +130,42 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
     <Container>
       <TabContainer>
         <Tab>
-          <Link
+          <NavLink
             to={{
               pathname: history.location.pathname,
               search: "?type=created",
             }}
+            style={{
+              color: "darkgray",
+              textDecoration: "none"
+            }}
+            activeStyle={{
+              fontWeight: "bold",
+              color: backgroundDark
+            }}
+            isActive={() => history.location.search === "?type=created"}
           >
             Created
-          </Link>
+          </NavLink>
         </Tab>
         <Tab>
-          <Link
+          <NavLink
             to={{
               pathname: history.location.pathname,
               search: "?type=owned",
             }}
+            style={{
+              color: "darkgray",
+              textDecoration: "none"
+            }}
+            activeStyle={{
+              fontWeight: "bold",
+              color: backgroundDark
+            }}
+            isActive={() => history.location.search === "?type=owned"}
           >
             Owned
-          </Link>
+          </NavLink>
         </Tab>
         <SearchContainer>
           <InputContainer>
