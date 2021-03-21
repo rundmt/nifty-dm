@@ -52,7 +52,6 @@ export const getTokenMetaData = async (tokenId = "", key = "") => {
 export const getTokensMetaDataByAddress = async (walletAddress, type) => {
   try {
     const items = await getTokensByAddress(walletAddress, type);
-    console.log(items);
 
     const itemsImageUrl = Promise.all(
       items.map(async (item) => {
