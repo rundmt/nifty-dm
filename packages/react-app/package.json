@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
+    "@ensdomains/react-ens-address": "^0.0.27",
     "@ethersproject/contracts": "^5.0.5",
     "@ethersproject/providers": "^5.0.12",
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
