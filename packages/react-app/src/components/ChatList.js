@@ -5,27 +5,29 @@ import {
   faCoins,
   faWallet,
   faComments,
-  faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-library.add(faCoins, faWallet, faComments, faPaperPlane);
+library.add(faCoins, faWallet, faComments);
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+`;
+
+const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-const ChatContainer = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
 const TokenIcon = styled.div`
   margin-right: 24px;
+  display: flex;
+  width: 100%;
 `;
 
 const WalletIcon = styled.div`
@@ -45,7 +47,18 @@ const SectionHeader = styled.h2`
   font-size: 24px;
 `;
 
-const Dashboard = ({ tokensOwned, tokensCreated }) => {
+const IconWrapper = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+  width: 100%;
+`;
+
+const TokenName = styled.div`
+  margin-left: 8px;
+`;
+
+const ChatList = ({ tokensOwned, tokensCreated }) => {
   const history = useHistory();
   const [value, setValue] = React.useState("");
   const tokens = React.useMemo(() => {
@@ -66,7 +79,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
     <Container>
       <Link
         to={{
-          pathname: "/",
+          pathname: history.location.pathname,
           search: "?type=created",
         }}
       >
@@ -74,7 +87,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       </Link>
       <Link
         to={{
-          pathname: "/",
+          pathname: history.location.pathname,
           search: "?type=owned",
         }}
       >
@@ -93,13 +106,15 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
             return (
               <TokenIcon>
                 {/* TODO get the wallet owner of the token to chat */}
-                <Link to="">
-                  <FontAwesomeIcon
-                    color="gold"
-                    size="2x"
-                    icon={["fas", "coins"]}
-                  />
-                  <div>{token.name}</div>
+                <Link to={`/chat/${token.owner}`}>
+                  <IconWrapper>
+                    <FontAwesomeIcon
+                      color="gold"
+                      size="2x"
+                      icon={["fas", "coins"]}
+                    />
+                    <TokenName>{token.name}</TokenName>
+                  </IconWrapper>
                 </Link>
               </TokenIcon>
             );
@@ -138,4 +153,4 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
   );
 };
 
-export default Dashboard;
+export default ChatList;

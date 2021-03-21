@@ -1,6 +1,8 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import ChatList from "./ChatList";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Container = styled.div`
   display: grid;
@@ -11,6 +13,12 @@ const Container = styled.div`
 
 const DashboardContainer = styled.div`
   grid-column-start: 1;
+  border-right: 1px solid black;
+`;
+
+const InfoContainer = styled.div`
+  grid-column-start: 3;
+  border-left: 1px solid black;
 `;
 
 const ChatContainer = styled.div`
@@ -41,7 +49,7 @@ const MessagesContainer = styled.div`
   flex: 12;
   display: "flex";
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 8px;
 `;
 
@@ -52,16 +60,38 @@ const InputContainer = styled.div`
 const Input = styled.input`
   flex: 9;
   font-size: 16px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  padding: 12px;
+  margin-right: 16px;
+  border: none;
 `;
 
 const ChatName = styled.div`
   text-align: center;
   line-height: 40px;
   font-weight: 800;
-  background-color: lightgray;
+  background-color: #f7f7f7;
+  border-radius: 8px;
 `;
 
-const Chat = ({ firestore, currentWallet, firebase }) => {
+const SubmitButton = styled.div`
+  background: #21e0ea;
+  border-radius: 50%;
+  height: 36px;
+  width: 36px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+`;
+
+const Chat = ({
+  firestore,
+  currentWallet,
+  firebase,
+  tokensOwned,
+  tokensCreated,
+}) => {
   let { wallet } = useParams();
   const [messages, setMessages] = React.useState([]);
   const [input, setInput] = React.useState("");
@@ -127,7 +157,9 @@ const Chat = ({ firestore, currentWallet, firebase }) => {
 
   return (
     <Container>
-      <DashboardContainer></DashboardContainer>
+      <DashboardContainer>
+        <ChatList tokensOwned={tokensOwned} tokensCreated={tokensCreated} />
+      </DashboardContainer>
       <ChatContainer>
         <ChatName>{wallet}</ChatName>
 
@@ -146,10 +178,19 @@ const Chat = ({ firestore, currentWallet, firebase }) => {
             onChange={onChangeInput}
             onKeyDown={onKeyDown}
             value={input}
+            placeholder="Aa"
           />
-          <button onClick={onSubmit}>Submit</button>
+          <SubmitButton onClick={onSubmit}>
+            <FontAwesomeIcon
+              color="white"
+              size="1x"
+              icon={["fas", "paper-plane"]}
+            />
+          </SubmitButton>
         </InputContainer>
       </ChatContainer>
+
+      <InfoContainer>info</InfoContainer>
     </Container>
   );
 };
