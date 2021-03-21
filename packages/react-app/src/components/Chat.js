@@ -9,7 +9,8 @@ import {
   TokenLabel,
   Input,
   InputContainer,
-  Image
+  Image,
+  StyledLink
 } from "./index"
 
 const Container = styled.div`
@@ -237,9 +238,11 @@ const Chat = ({
       </InputContainer>
     </ChatContainer>
     <InfoContainer>
-        <div style={{ display: 'flex', justifyContent: 'center', padding: "20px" }}>
-          <Image src={logo} alt="nfty-dm-logo" height="100px" width="100px" />
-        </div>
+        <StyledLink to="/">
+          <div style={{ display: 'flex', justifyContent: 'center', padding: "20px" }}>
+            <Image src={logo} alt="nfty-dm-logo" height="100px" width="100px" />
+          </div>
+        </StyledLink>
         <InfoHeader>Token</InfoHeader>
         <TokenImage src={tokenURL} />
         <TokenLabel>description: {tokenDescription}</TokenLabel>
