@@ -9,7 +9,7 @@ import useWeb3Modal from "./hooks/useWeb3Modal";
 
 import { addresses, abis } from "@project/contracts";
 // import GET_TRANSFERS from "./graphql/subgraph";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Chat from "./components/Chat";
 import Dashboard from "./components/Dashboard";
 import firebase from "firebase";
@@ -122,38 +122,40 @@ function App() {
 
   return (
     <Router>
-      <Route path="/" exact>
-        <Header>
-          <div style={{ padding: "20px" }}>
-            <Image src={logo} alt="nfty-dm-logo" height="50px" width="50px" />
-            <HeaderH1>NFTY DM</HeaderH1>
-          </div>
-          <WalletButton
-            provider={provider}
-            loadWeb3Modal={loadWeb3Modal}
-            logoutOfWeb3Modal={logoutOfWeb3Modal}
+      <Switch>
+        <Route path="/" exact>
+          <Header>
+            <div style={{ padding: "20px" }}>
+              <Image src={logo} alt="nfty-dm-logo" height="50px" width="50px" />
+              <HeaderH1>NFTY DM</HeaderH1>
+            </div>
+            <WalletButton
+              provider={provider}
+              loadWeb3Modal={loadWeb3Modal}
+              logoutOfWeb3Modal={logoutOfWeb3Modal}
+            />
+          </Header>
+          <Dashboard tokensOwned={tokensOwned} tokensCreated={tokensCreated} />
+        </Route>
+        <Route path="/chat/:wallet" exact>
+          <Chat
+            firestore={db}
+            firebase={firebase}
+            currentWallet={currentWallet}
+            tokensOwned={tokensOwned}
+            tokensCreated={tokensCreated}
           />
-        </Header>
-        <Dashboard tokensOwned={tokensOwned} tokensCreated={tokensCreated} />
-      </Route>
-      <Route path="/chat/:wallet" exact>
-        <Chat
-          firestore={db}
-          firebase={firebase}
-          currentWallet={currentWallet}
-          tokensOwned={tokensOwned}
-          tokensCreated={tokensCreated}
-        />
-      </Route>
-      <Route path="/chat/:wallet/:token" exact>
-        <Chat
-          firestore={db}
-          firebase={firebase}
-          currentWallet={currentWallet}
-          tokensOwned={tokensOwned}
-          tokensCreated={tokensCreated}
-        />
-      </Route>
+        </Route>
+        <Route path="/chat/:wallet/:token" exact>
+          <Chat
+            firestore={db}
+            firebase={firebase}
+            currentWallet={currentWallet}
+            tokensOwned={tokensOwned}
+            tokensCreated={tokensCreated}
+          />
+        </Route>
+      </Switch>
     </Router>
   );
 }

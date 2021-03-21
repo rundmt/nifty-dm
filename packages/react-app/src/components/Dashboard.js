@@ -97,22 +97,38 @@ const Input = styled.input`
   border: none;
 `;
 
+const COLLECTIONS = {
+  OWNED: "owner",
+  CREATED: "creator",
+};
+
 const Dashboard = ({ tokensOwned, tokensCreated }) => {
   const history = useHistory();
   const [value, setValue] = React.useState("");
+  const [tokenType, setTokenType] = React.useState("owned");
   const tokens = React.useMemo(() => {
     const includesFilter = (token) => token.name.toLowerCase().includes(value);
 
-    if (history.location.search === "?type=owned") {
-      return tokensOwned.filter(includesFilter);
+    if (tokenType === COLLECTIONS.OWNED) {
+      return tokensOwned;
     }
 
-    return tokensCreated.filter(includesFilter);
-  }, [history.location.search, tokensCreated, tokensOwned, value]);
+    return tokensCreated;
+  }, [tokenType, tokensCreated, tokensOwned, value]);
 
   const onChange = React.useCallback((ev) => {
     setValue(ev.currentTarget.value);
   }, []);
+
+  const setCreated = () => {
+    setTokenType(COLLECTIONS.CREATED);
+  };
+
+  const setOwned = () => {
+    setTokenType(COLLECTIONS.OWNED);
+  };
+
+  console.log(history.location.search);
 
   return (
     <Container>
@@ -123,6 +139,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
               pathname: history.location.pathname,
               search: "?type=created",
             }}
+            onClick={setCreated}
             style={{
               color: "darkgray",
               textDecoration: "none",
@@ -142,6 +159,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
               pathname: history.location.pathname,
               search: "?type=owned",
             }}
+            onClick={setOwned}
             style={{
               color: "darkgray",
               textDecoration: "none",

@@ -203,7 +203,7 @@ const Chat = ({
     (t) => t.id === token
   );
 
-  const tokenURL = selectedToken ? selectedToken["external_url"] : "as";
+  const tokenURL = selectedToken ? selectedToken["external_url"] : "";
 
   return (
     <Container>
