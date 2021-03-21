@@ -89,8 +89,12 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
   const tokens = React.useMemo(() => {
     const includesFilter = (token) => token.name.toLowerCase().includes(value);
 
-    if (history.location.search === "?type=owned") {
+    if (history.location.search === "?type=created") {
       return tokensOwned.filter(includesFilter);
+    }
+
+    if (history.location.search === "?type=owned") {
+      return tokensCreated.filter(includesFilter);
     }
 
     return tokensCreated.filter(includesFilter);
