@@ -1,12 +1,20 @@
 import styled from "styled-components";
 
+const backgroundDark = '#070037'
+
+export const HeaderH1 = styled.h1`
+  display: inline;
+  margin-left: 20px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+`;
+
 export const Header = styled.header`
-  background-color: #282c34;
+  background-color: ${backgroundDark};
   min-height: 70px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
   color: white;
 `;
 
@@ -22,8 +30,6 @@ export const Body = styled.div`
 `;
 
 export const Image = styled.img`
-  height: 40vmin;
-  margin-bottom: 16px;
   pointer-events: none;
 `;
 

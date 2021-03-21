@@ -3,8 +3,8 @@ import { Contract } from "@ethersproject/contracts";
 import { getDefaultProvider } from "@ethersproject/providers";
 // import { useQuery } from "@apollo/react-hooks";
 
-import { Body, Button, Header, Image, Link } from "./components";
-import logo from "./ethereumLogo.png";
+import { Button, Header, HeaderH1, Image, Link } from "./components";
+import logo from "./nftydmLogo.png";
 import useWeb3Modal from "./hooks/useWeb3Modal";
 
 import { addresses, abis } from "@project/contracts";
@@ -124,6 +124,10 @@ function App() {
     <Router>
       <Route path="/" exact>
         <Header>
+          <div style={{padding: '20px'}}>
+            <Image src={logo} alt="nfty-dm-logo" height="50px" width="50px" />
+            <HeaderH1>NFTY DM</HeaderH1>
+          </div>
           <WalletButton
             provider={provider}
             loadWeb3Modal={loadWeb3Modal}
