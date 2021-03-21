@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import { Link as RouterLink, NavLink } from "react-router-dom";
 
-const backgroundDark = '#070037'
+export const backgroundDark = '#070037'
 
 export const HeaderH1 = styled.h1`
   display: inline;
@@ -58,4 +59,68 @@ export const Button = styled.button`
     border: none;
     outline: none;
   }
+`;
+
+export const TabContainer = styled.div`
+  padding-left: 20px;
+  display: flex;
+  align-items: flex-end;
+  align-self: flex-start;
+  width: calc(100% - 20px);
+  background-color: lightgray;
+`;
+
+export const Tab = styled.div`
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: white;
+  padding: 20px;
+  border: 1px darkgray solid;
+  border-bottom: 0px;
+`;
+
+export const StyledLink = styled(RouterLink)`
+text-decoration: none;
+color: dimgray;
+`;
+
+export const Token = styled.div`
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const TokenIcon = styled.img`
+  border-radius: 99px;
+`;
+
+export const TokenLabel = styled.div`
+  margin: 20px;
+`;
+
+export const Input = styled.input`
+flex: 9;
+font-size: 16px;
+border-radius: 8px;
+background-color: #f7f7f7;
+padding: 12px;
+margin-right: 16px;
+border: none;
+`;
+
+export const InputContainer = styled.div`
+display: flex;
+`;
+
+export const WalletIcon = styled.div`
+width: 48px;
+height: 48px;
+background-color: green;
+margin-right: 24px;
+`;
+
+export const StyledNavLink = styled(NavLink)`
+  color: darkgray;
+  text-decoration: none;
 `;

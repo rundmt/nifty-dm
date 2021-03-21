@@ -7,41 +7,29 @@ import {
   faComments,
   faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
-import { NavLink, Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import {
+  TabContainer,
+  Tab,
+  StyledLink,
+  Token,
+  TokenIcon,
+  TokenLabel,
+  Input,
+  InputContainer,
+  StyledNavLink,
+  backgroundDark
+} from "./index"
+
 library.add(faCoins, faWallet, faComments, faPaperPlane);
-
-const backgroundDark = "#070037";
-
-const StyleLink = styled(Link)`
-  text-decoration: none;
-  color: dimgray;
-`;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const TabContainer = styled.div`
-  padding-left: 20px;
-  display: flex;
-  align-items: flex-end;
-  align-self: flex-start;
-  width: 100%;
-  background-color: lightgray;
-`;
-
-const Tab = styled.div`
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  background-color: white;
-  padding: 20px;
-  border: 1px darkgray solid;
-  border-bottom: 0px;
 `;
 
 const SearchContainer = styled.div`
@@ -58,21 +46,6 @@ const ChatContainer = styled.div`
   align-items: center;
 `;
 
-const Token = styled.div`
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const TokenIcon = styled.img`
-  border-radius: 99px;
-`;
-
-const TokenLabel = styled.div`
-  margin: 20px;
-`;
-
 const Section = styled.div`
   display: flex;
   flex-direction: column;
@@ -81,20 +54,6 @@ const Section = styled.div`
 
 const SectionHeader = styled.h2`
   font-size: 24px;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-`;
-
-const Input = styled.input`
-  flex: 9;
-  font-size: 16px;
-  border-radius: 8px;
-  background-color: #f7f7f7;
-  padding: 12px;
-  margin-right: 16px;
-  border: none;
 `;
 
 const COLLECTIONS = {
@@ -134,16 +93,12 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
     <Container>
       <TabContainer>
         <Tab>
-          <NavLink
+          <StyledNavLink
             to={{
               pathname: history.location.pathname,
               search: "?type=created",
             }}
             onClick={setCreated}
-            style={{
-              color: "darkgray",
-              textDecoration: "none",
-            }}
             activeStyle={{
               fontWeight: "bold",
               color: backgroundDark,
@@ -151,19 +106,15 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
             isActive={() => history.location.search === "?type=created"}
           >
             Created
-          </NavLink>
+          </StyledNavLink>
         </Tab>
         <Tab>
-          <NavLink
+          <StyledNavLink
             to={{
               pathname: history.location.pathname,
               search: "?type=owned",
             }}
             onClick={setOwned}
-            style={{
-              color: "darkgray",
-              textDecoration: "none",
-            }}
             activeStyle={{
               fontWeight: "bold",
               color: backgroundDark,
@@ -171,7 +122,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
             isActive={() => history.location.search === "?type=owned"}
           >
             Owned
-          </NavLink>
+          </StyledNavLink>
         </Tab>
         <SearchContainer>
           <InputContainer>
@@ -189,7 +140,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
         <ChatContainer>
           {tokens.map((token) => {
             return (
-              <StyleLink to={`/chat/${token.owner}/${token.id}`}>
+              <StyledLink to={`/chat/${token.owner}/${token.id}`}>
                 <Token>
                   <TokenIcon
                     src={token["external_url"]}
@@ -199,7 +150,7 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
                   />
                   <TokenLabel>{token.name}</TokenLabel>
                 </Token>
-              </StyleLink>
+              </StyledLink>
             );
           })}
         </ChatContainer>
@@ -208,13 +159,13 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       <Section>
         <ChatContainer>
           <Token>
-            <StyleLink to={`/chat/`}>
+            <StyledLink to={`/chat/`}>
               <FontAwesomeIcon
                 color="brown"
                 size="2x"
                 icon={["fas", "wallet"]}
               />
-            </StyleLink>
+            </StyledLink>
           </Token>
         </ChatContainer>
       </Section>
@@ -222,13 +173,13 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
       <Section>
         <ChatContainer>
           <Token>
-            <StyleLink to={`/chat/`}>
+            <StyledLink to={`/chat/`}>
               <FontAwesomeIcon
                 color="purple"
                 size="2x"
                 icon={["fas", "comments"]}
               />
-            </StyleLink>
+            </StyledLink>
           </Token>
         </ChatContainer>
       </Section>

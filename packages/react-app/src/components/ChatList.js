@@ -10,18 +10,27 @@ import { Link, useHistory } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import {
+  TabContainer,
+  Tab,
+  Input,
+  StyledNavLink,
+  backgroundDark
+} from "./index"
+
 library.add(faCoins, faWallet, faComments);
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 16px;
 `;
 
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
 const TokenIcon = styled.div`
@@ -30,21 +39,18 @@ const TokenIcon = styled.div`
   width: 100%;
 `;
 
-const WalletIcon = styled.div`
-  width: 48px;
-  height: 48px;
-  background-color: green;
-  margin-right: 24px;
-`;
-
 const Section = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
 const SectionHeader = styled.h2`
   font-size: 24px;
+  padding-left: 16px;
+  padding-right: 16px;
 `;
 
 const IconWrapper = styled.div`
@@ -56,19 +62,6 @@ const IconWrapper = styled.div`
 
 const TokenName = styled.div`
   margin-left: 8px;
-`;
-
-const LinkWrapper = styled.div`
-  display: flex;
-`;
-
-const Input = styled.input`
-  font-size: 16px;
-  border-radius: 8px;
-  background-color: #f7f7f7;
-  padding: 12px;
-  margin-right: 16px;
-  border: none;
 `;
 
 const ChatList = ({ tokensOwned, tokensCreated }) => {
@@ -92,24 +85,38 @@ const ChatList = ({ tokensOwned, tokensCreated }) => {
 
   return (
     <Container>
-      <LinkWrapper>
-        <Link
-          to={{
-            pathname: history.location.pathname,
-            search: "?type=created",
-          }}
-        >
-          Created
-        </Link>
-        <Link
-          to={{
-            pathname: history.location.pathname,
-            search: "?type=owned",
-          }}
-        >
-          Owned
-        </Link>
-      </LinkWrapper>
+      <TabContainer>
+      <Tab>
+          <StyledNavLink
+            to={{
+              pathname: history.location.pathname,
+              search: "?type=created",
+            }}
+            activeStyle={{
+              fontWeight: "bold",
+              color: backgroundDark,
+            }}
+            isActive={() => history.location.search === "?type=created"}
+          >
+            Created
+          </StyledNavLink>
+        </Tab>
+        <Tab>
+          <StyledNavLink
+            to={{
+              pathname: history.location.pathname,
+              search: "?type=owned",
+            }}
+            activeStyle={{
+              fontWeight: "bold",
+              color: backgroundDark,
+            }}
+            isActive={() => history.location.search === "?type=owned"}
+          >
+            Owned
+          </StyledNavLink>
+        </Tab>
+      </TabContainer>
       <Input
         type="text"
         value={value}
@@ -122,7 +129,14 @@ const ChatList = ({ tokensOwned, tokensCreated }) => {
           {tokens.map((token) => {
             return (
               <TokenIcon>
-                <Link to={`/chat/${token.owner}/${token.id}`}>
+                <StyledNavLink
+                  to={`/chat/${token.owner}/${token.id}`}
+                  isActive={() => history.location.pathname === `/chat/${token.owner}/${token.id}`}
+                  activeStyle={{
+                    fontWeight: "bold",
+                    color: backgroundDark,
+                  }}
+                >
                   <IconWrapper>
                     <FontAwesomeIcon
                       color="gold"
@@ -131,7 +145,7 @@ const ChatList = ({ tokensOwned, tokensCreated }) => {
                     />
                     <TokenName>{token.name}</TokenName>
                   </IconWrapper>
-                </Link>
+                </StyledNavLink>
               </TokenIcon>
             );
           })}
