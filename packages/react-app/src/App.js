@@ -124,7 +124,7 @@ function App() {
     <Router>
       <Route path="/" exact>
         <Header>
-          <div style={{padding: '20px'}}>
+          <div style={{ padding: "20px" }}>
             <Image src={logo} alt="nfty-dm-logo" height="50px" width="50px" />
             <HeaderH1>NFTY DM</HeaderH1>
           </div>
@@ -137,7 +137,11 @@ function App() {
         <Dashboard tokensOwned={tokensOwned} tokensCreated={tokensCreated} />
       </Route>
       <Route path="/chat/:wallet">
-        <Chat firestore={db} currentWallet={currentWallet} />
+        <Chat
+          firestore={db}
+          firebase={firebase}
+          currentWallet={currentWallet}
+        />
       </Route>
     </Router>
   );

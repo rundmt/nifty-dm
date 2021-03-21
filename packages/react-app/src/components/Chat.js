@@ -1,66 +1,81 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 
-const Chat = ({ firestore, currentWallet }) => {
+const Chat = ({ firestore, currentWallet, firebase }) => {
   let { wallet } = useParams();
   const [messages, setMessages] = React.useState([]);
-  const [input, setInput] = React.useState("")
+  const [input, setInput] = React.useState("");
 
   const messagesRef = React.useMemo(() => {
-    return currentWallet && firestore
-      .collection("messages")
-      .where("sender", "in", [
-        currentWallet.toLowerCase(),
-        wallet.toLowerCase(),
-      ]);
-  },[currentWallet, firestore]);
+    return (
+      currentWallet &&
+      firestore
+        .collection("messages")
+        .where("sender", "in", [
+          currentWallet.toLowerCase(),
+          wallet.toLowerCase(),
+        ])
+        .orderBy("createdAt")
+    );
+  }, [currentWallet, firestore, wallet]);
 
   React.useEffect(() => {
     if (messagesRef) {
       const unsubscribe = messagesRef.onSnapshot((querySnapshot) => {
         const list = [];
         querySnapshot.forEach((doc) => {
-            list.push(doc.data());
+          list.push(doc.data());
         });
 
         setMessages(list);
       });
 
-      return unsubscribe
+      return unsubscribe;
     }
   }, [messagesRef]);
 
   const onChangeInput = React.useCallback((ev) => {
-    setInput(ev.currentTarget.value)
-  }, [])
+    setInput(ev.currentTarget.value);
+  }, []);
 
   const onSubmit = React.useCallback(() => {
     const data = {
-        sender: currentWallet.toLowerCase(),
-        receiver: wallet.toLowerCase(),
-        content: input
-    }
+      sender: currentWallet.toLowerCase(),
+      receiver: wallet.toLowerCase(),
+      content: input,
+      createdAt: firebase.firestore.Timestamp.now(),
+    };
 
     setInput("");
 
-    firestore.collection("messages").add(data).then(() => {
+    firestore
+      .collection("messages")
+      .add(data)
+      .then(() => {
         console.log("Document successfully written!");
-    });
+      });
+  }, [firebase.firestore, currentWallet, wallet, input, firestore]);
 
-  },[currentWallet, wallet, input, firestore]);
-
-  const onKeyDown = React.useCallback((ev) => {
-    if (ev.keyCode === 13) {
-      onSubmit();
-    }
-  }, [onSubmit]);
+  const onKeyDown = React.useCallback(
+    (ev) => {
+      if (ev.keyCode === 13) {
+        onSubmit();
+      }
+    },
+    [onSubmit]
+  );
 
   return (
     <div>
-        {messages.map((message) => (
-            <div>{message.content}</div>
-        ))}
-      <input type="text" onChange={onChangeInput} onKeyDown={onKeyDown} value={input} />
+      {messages.map((message) => (
+        <div>{message.content}</div>
+      ))}
+      <input
+        type="text"
+        onChange={onChangeInput}
+        onKeyDown={onKeyDown}
+        value={input}
+      />
       <button onClick={onSubmit}>Submit</button>
     </div>
   );
