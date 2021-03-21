@@ -141,6 +141,8 @@ function App() {
           firestore={db}
           firebase={firebase}
           currentWallet={currentWallet}
+          tokensOwned={tokensOwned}
+          tokensCreated={tokensCreated}
         />
       </Route>
     </Router>
