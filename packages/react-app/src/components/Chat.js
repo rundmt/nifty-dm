@@ -3,7 +3,12 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ChatList from "./ChatList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { getTokenMetaData } from "../raribleApi/raribleApi";
+
+import {
+  TokenLabel,
+  Input,
+  InputContainer,
+} from "./index"
 
 const Container = styled.div`
   display: grid;
@@ -53,20 +58,6 @@ const MessagesContainer = styled.div`
   flex-direction: column;
   overflow-y: auto;
   padding: 8px;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-`;
-
-const Input = styled.input`
-  flex: 9;
-  font-size: 16px;
-  border-radius: 8px;
-  background-color: #f7f7f7;
-  padding: 12px;
-  margin-right: 16px;
-  border: none;
 `;
 
 const ChatName = styled.div`
@@ -204,6 +195,8 @@ const Chat = ({
   );
 
   const tokenURL = selectedToken ? selectedToken["external_url"] : "";
+  const tokenDescription = selectedToken ? selectedToken["description"] : "";
+  const tokenOwner = selectedToken ? selectedToken["owner"] : "";
 
   return (
     <Container>
@@ -244,6 +237,8 @@ const Chat = ({
       <InfoContainer>
         <InfoHeader>Token</InfoHeader>
         <TokenImage src={tokenURL} />
+        <TokenLabel>{tokenDescription}</TokenLabel>
+        <TokenLabel>owner: {tokenOwner}</TokenLabel>
       </InfoContainer>
     </Container>
   );
