@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import ENSAddress from '@ensdomains/react-ens-address'
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCoins,
@@ -136,7 +135,6 @@ const Dashboard = ({ tokensOwned, tokensCreated }) => {
           </InputContainer>
         </SearchContainer>
       </TabContainer>
-      {process.env === 'production' && <ENSAddress provider={window.web3 || window.ethereum} />}
       <SectionHeader>Tokens</SectionHeader>
       <Section>
         <ChatContainer>
