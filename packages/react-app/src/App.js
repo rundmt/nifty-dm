@@ -14,6 +14,7 @@ import Chat from "./components/Chat";
 import Dashboard from "./components/Dashboard";
 import firebase from "firebase";
 import Web3 from "web3";
+import Provider from 'streamr-client-react';
 
 import { getTokensMetaDataByAddress } from "./raribleApi/raribleApi";
 
@@ -120,43 +121,53 @@ function App() {
   console.log(currentWallet);
   console.log({ tokensOwned, tokensCreated });
 
+  const privateKey = process.env.REACT_APP_TOKEN_PRIVATE_KEY;
+
+  const streamrClientOptions = {
+    auth: {
+      privateKey
+  },
+}
+
   return (
-    <Router>
-      <Switch>
-        <Route path="/" exact>
-          <Header>
-            <div style={{ padding: "20px" }}>
-              <Image src={logo} alt="nfty-dm-logo" height="50px" width="50px" />
-              <HeaderH1>NFTY DM</HeaderH1>
-            </div>
-            <WalletButton
-              provider={provider}
-              loadWeb3Modal={loadWeb3Modal}
-              logoutOfWeb3Modal={logoutOfWeb3Modal}
+    <Provider {...streamrClientOptions}>
+      <Router>
+        <Switch>
+          <Route path="/" exact>
+            <Header>
+              <div style={{ padding: "20px" }}>
+                <Image src={logo} alt="nfty-dm-logo" height="50px" width="50px" />
+                <HeaderH1>NFTY DM</HeaderH1>
+              </div>
+              <WalletButton
+                provider={provider}
+                loadWeb3Modal={loadWeb3Modal}
+                logoutOfWeb3Modal={logoutOfWeb3Modal}
+              />
+            </Header>
+            <Dashboard tokensOwned={tokensOwned} tokensCreated={tokensCreated} />
+          </Route>
+          <Route path="/chat/:wallet" exact>
+            <Chat
+              firestore={db}
+              firebase={firebase}
+              currentWallet={currentWallet}
+              tokensOwned={tokensOwned}
+              tokensCreated={tokensCreated}
             />
-          </Header>
-          <Dashboard tokensOwned={tokensOwned} tokensCreated={tokensCreated} />
-        </Route>
-        <Route path="/chat/:wallet" exact>
-          <Chat
-            firestore={db}
-            firebase={firebase}
-            currentWallet={currentWallet}
-            tokensOwned={tokensOwned}
-            tokensCreated={tokensCreated}
-          />
-        </Route>
-        <Route path="/chat/:wallet/:token" exact>
-          <Chat
-            firestore={db}
-            firebase={firebase}
-            currentWallet={currentWallet}
-            tokensOwned={tokensOwned}
-            tokensCreated={tokensCreated}
-          />
-        </Route>
-      </Switch>
-    </Router>
+          </Route>
+          <Route path="/chat/:wallet/:token" exact>
+            <Chat
+              firestore={db}
+              firebase={firebase}
+              currentWallet={currentWallet}
+              tokensOwned={tokensOwned}
+              tokensCreated={tokensCreated}
+            />
+          </Route>
+        </Switch>
+      </Router>
+    </Provider>
   );
 }
 

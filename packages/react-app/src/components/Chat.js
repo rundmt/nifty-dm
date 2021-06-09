@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useCallback} from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import ChatList from "./ChatList";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSubscription, useClient } from 'streamr-client-react';
 
 import logo from "../nftydmLogo.png";
 import {
@@ -105,6 +106,19 @@ const Chat = ({
 
   console.log({ token });
 
+  const client = useClient();
+  const STREAM_ID = process.env.REACT_APP_STREAM_ID;
+
+  const onMessage = useCallback((message) => {
+    console.log({message});
+  }, []);
+
+  useSubscription({
+      stream: STREAM_ID,
+      // For more options see
+      // https://github.com/streamr-dev/streamr-client-javascript#subscription-options
+  }, onMessage);
+
   const messagesRef = React.useMemo(() => {
     return (
       currentWallet &&
@@ -173,6 +187,8 @@ const Chat = ({
       content: input,
       createdAt: firebase.firestore.Timestamp.now(),
     };
+
+    client.publish(STREAM_ID, data);
 
     setInput("");
 
